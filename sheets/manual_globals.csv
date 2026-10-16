@@ -1,0 +1,30 @@
+variant,addr,name,type,comment
+resident,0x800AE204,g_game_state,ushort,Current game state: main() runs its handler every frame (see sheets/game_sections.csv). Change it with goto_state().
+resident,0x800AE224,g_game_substate,ushort,Step inside the current game state; each state handler switches on it.
+resident,0x800AFA4C,g_frame_count,uint,Frames since boot (main() counts it up every frame).
+resident,0x800ADEFC,g_draw_buffer,,Index (0 / 1) of the display buffer drawn this frame (get_draw_buffer()).
+resident,0x8009542C,g_display_active,uint,1 while the per-frame screen output runs; 0 while it is frozen (set_display_frozen()).
+resident,0x8009BC5C,g_vsync_count,,Raised by the vertical blank callback; frame_wait_vsync() waits for it.
+resident,0x800A912C,g_random_seed,uint,Random number seed; stepped while waiting for each frame (seed = (seed + 1) * 0x10DCD).
+resident,0x800AFA88,g_mode_settings,,"Settings of the current game mode; its first byte is the mode number (values 0..8 select arcade, versus, team battle and the other modes; 7 and 8 are special-cased in many places)."
+resident,0x800AFA9C,g_mode_next_state,byte,Game state the current screen goes to when it is done (set by the game mode).
+resident,0x800AFA9D,g_mode_next_substate,byte,Sub-state for g_mode_next_state.
+resident,0x8009811C,g_load_queue,,"Load queue: up to 8 entries of {u16 argument, u16 BNS file, u32 destination} (load_queue_add)."
+resident,0x8009815C,g_load_queue_count,byte,Number of entries in g_load_queue.
+resident,0x8009815D,g_load_queue_pos,byte,Entry of g_load_queue being loaded by state 1.
+resident,0x8009815E,g_load_then_state,byte,State goto_state() switches to after the queued loads.
+resident,0x8009815F,g_load_then_substate,byte,Sub-state for g_load_then_state.
+resident,0x80098118,g_load_is_code,,Set when the running load is code (BNS file below 10): flush the instruction cache afterwards.
+resident,0x800A9130,g_pad1_buttons,ushort,"Player 1 buttons this frame in the game's format (bit 12 up, 13 right, 14 down, 15 left, 4 triangle, 5 circle, 6 cross, 7 square, 0 L2, 1 R2, 2 L1, 3 R1, 8 select, 11 start)."
+resident,0x800A915A,g_pad2_buttons,ushort,Player 2 buttons this frame (same format as g_pad1_buttons).
+resident,0x800ADD68,g_pad1_prev,ushort,Player 1 buttons of the previous frame (to find newly pressed ones).
+resident,0x800ADD6A,g_pad2_prev,ushort,Player 2 buttons of the previous frame.
+resident,0x800ADF08,g_pad_pressed,,Per player (u16 [2]): buttons newly pressed this frame (menus).
+resident,0x800ADF00,g_pad_repeat,,"Per player (u16 [2]): menu auto-repeat buttons (set on the press, then every 4 frames once held for 20)."
+resident,0x8009BC68,g_pad_repeat_timers,,Per player 16 hold counters (one per button) for g_pad_repeat.
+resident,0x800B8D58,g_mode_work,,"Start of the mode package / heap area. Screens that run without a package use it for their own state; the character select keeps its state here (+0 mode, then one 0xAC-byte block per player from +0x18: phase, cursor column / row, ...)."
+resident,0x80022768,g_charsel_grid,,Character select portrait grid: 7 columns x 3 rows of 6-byte cells; byte 4 of a cell is the character id (character number * 4).
+resident,0x80097EF0,g_unlocked_characters,,Bit mask of unlocked characters (bit = character id >> 2); locked cells show a placeholder.
+resident,0x800ADD5C,g_player_char,,Per player (u16 [2]): chosen character number.
+resident,0x800ADD98,g_player_costume,,"Per player (u16 [2]): chosen costume (0..3, the button used to confirm); character id = g_player_char * 4 + costume."
+resident,0x800ADFBC,g_player_has_choice,,"Per player: nonzero if the player already has a character (continue / rematch), so the cursor starts on it."

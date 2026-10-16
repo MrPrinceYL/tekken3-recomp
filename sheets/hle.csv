@@ -1,0 +1,7 @@
+variant,name,addr,area,status,notes
+resident,v_wait,0x80085B20,libetc,implemented,"Waits for the vertical blank count with a real-time timeout ((a1<<15) loop iterations at ~32 cycles each, as on the console) instead of counting host loop iterations, which would time out at once and leave the game unthrottled. The counter address comes from the function's own lui/lw pair at +0x0C/+0x10 (lui v0,0x800a; lw v0,-0x5398(v0) = 0x8009AC68)"
+resident,VSync,0x800859A8,libetc,implemented,"VSync(-1) only (returns the vertical blank count) takes ~3 us of real time, about what the call costs on the console. libcd/libgpu wait loops bound themselves by iteration count as well as by VSync(-1); without this their iteration limits expire in a fraction of a second on a fast host. Other modes run the original"
+pkg010,MDEC_in_sync,0x800E2520,libpress,implemented,"Waits for the MDEC to finish its command with a real-time limit (~0.5 s, what 0x100000 iterations take on the console) while servicing interrupts; only if that expires does the original run (and report its timeout). Counted on the host the limit would expire at once and the timeout path resets the MDEC mid-frame. Located by its name string (0x800DA488, passed to the timeout reporter)"
+pkg010,MDEC_out_sync,0x800E25B4,libpress,implemented,"Same for the DMA1 (MDEC out) busy wait (name string 0x800DA498)"
+pkg301,MDEC_in_sync,0x80105A2C,libpress,implemented,"As in pkg010 (name string 0x800FD9F8)"
+pkg301,MDEC_out_sync,0x80105AC0,libpress,implemented,"As in pkg010 (name string 0x800FDA08)"

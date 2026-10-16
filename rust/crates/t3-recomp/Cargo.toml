@@ -1,0 +1,27 @@
+[package]
+name = "t3-recomp"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+psx-core = { path = "../psx-core" }
+psx-runtime = { path = "../psx-runtime" }
+t3-part-00 = { path = "../recomp/part_00" }
+t3-part-01 = { path = "../recomp/part_01" }
+t3-part-02 = { path = "../recomp/part_02" }
+t3-part-03 = { path = "../recomp/part_03" }
+t3-part-04 = { path = "../recomp/part_04" }
+t3-part-05 = { path = "../recomp/part_05" }
+t3-part-06 = { path = "../recomp/part_06" }
+t3-part-07 = { path = "../recomp/part_07" }
+t3-init = { path = "../recomp/init" }
+t3-pkg000 = { path = "../recomp/pkg000" }
+t3-ovl005 = { path = "../recomp/ovl005" }
+t3-ovl006 = { path = "../recomp/ovl006" }
+t3-ovl007 = { path = "../recomp/ovl007" }
+t3-ovl008 = { path = "../recomp/ovl008" }
+t3-pkg009 = { path = "../recomp/pkg009" }
+t3-pkg010 = { path = "../recomp/pkg010" }
+t3-pkg011 = { path = "../recomp/pkg011" }
+t3-pkg301 = { path = "../recomp/pkg301" }
+t3-pkg302 = { path = "../recomp/pkg302" }
