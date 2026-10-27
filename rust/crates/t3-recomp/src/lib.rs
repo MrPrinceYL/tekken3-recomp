@@ -13,7 +13,7 @@ pub fn disc_path() -> String {
     if let Ok(p) = std::env::var("T3_DISC") {
         return p;
     }
-    r"E:\Decompilation\Game\Tekken 3 (USA).cue".into()
+    r"../game/Tekken 3 (USA).cue".into()
 }
 
 /// Create the machine, load the executable and prepare the CPU at its entry point.
