@@ -1,4 +1,23 @@
-# Tekken3Decomp: Tekken 3 (SLUS-00402, PlayStation), Spreadsheet Method
+# Tekken 3 Recomp (Rust)
+
+A static recompilation of **Tekken 3** (PlayStation, SLUS-00402) to native Rust. The game's MIPS code is lifted with Ghidra into spreadsheets ("Spreadsheet Method"), turned into Rust, and runs on a PlayStation runtime written from scratch (GPU rasterizer, SPU, CD-ROM, GTE, MDEC, HLE BIOS) inside a Bevy app.
+
+> **No game files in this repository.** It contains only the recompiler tooling, the console
+> runtime and the app written for this project. The game's code and data are generated
+> locally from **your own legally obtained disc image**; ROMs, disc images, extracted files and
+> generated code are never committed (see `.gitignore`). Tekken is a trademark of Bandai Namco
+> Entertainment. This is an unofficial fan/research project, not affiliated with or endorsed by
+> Bandai Namco or Sony.
+
+## Quick start: bring your own disc
+
+1. Dump your own copy of **Tekken 3 (USA, SLUS-00402)** to `.cue` + `.bin` (all three tracks).
+2. Put it at `game/Tekken 3 (USA).cue` in this folder, or point `T3_DISC` at it.
+3. Install Python 3, a Rust toolchain, Ghidra 12.1.4 and ghidra-cli.
+4. Generate the code from your disc (see [Rebuilding from the disc](#rebuilding-from-the-disc)).
+   This creates `sheets/`, `src/` and the generated crates under `rust/`.
+5. Run `play.bat` (Windows) or `cd rust && T3_DISC=... cargo run -p t3-bevy`.
+
 
 The CSVs in `sheets/` are the **single source of truth** for all of the game's code: the
 executable `SLUS_004.02` and the ten code overlays it loads from `TEKKEN3.BNS`. Everything else
@@ -26,7 +45,7 @@ tools/run_ghidra.sh  ── ghidra-cli ──►  ../Tekken3/ghidra/TEKKEN3.gpr 
 
 Run **`play.bat`**. The first run builds everything (several minutes), later runs start in
 seconds. The disc image is read from `T3_DISC`, which defaults to
-`E:\Decompilation\Game\Tekken 3 (USA).cue` (the .cue with all three tracks).
+`game\Tekken 3 (USA).cue` (the .cue with all three tracks).
 
 - Keyboard and gamepads work at once. F2 rebinds controls (`%APPDATA%\Tekken3Decomp\controls.json`).
   Default keyboard: arrows / WASD = D-pad, X or Space = Cross, C = Circle, Z = Square,
@@ -48,13 +67,13 @@ You need Python 3, Ghidra 12.1, ghidra-cli and a Rust toolchain. The work folder
 next to this folder) holds the extracted disc, the Ghidra project and the raw export.
 
 ```bat
-set BIN=E:\Decompilation\Game\Tekken 3 (USA) (Track 1).bin
-set W=E:\Decompilation\Decomps\Tekken3
+set BIN=game\Tekken 3 (USA) (Track 1).bin
+set W=C:\work\Tekken3
 cd tools
 python psx_extract.py "%BIN%" %W%\extracted
 python find_stubs.py %W%\extracted\files\TEKKEN3\SLUS_004.02 %W%\extracted\symbols.csv
 python bns_overlays.py %W%\extracted
-set GHIDRA=E:\Decompilation\Tools\ghidra-cli\target\release\ghidra.exe
+set GHIDRA=C:\tools\ghidra-cli\target\release\ghidra.exe
 set T3_WORK=%W%
 bash run_ghidra.sh
 python build_sheets.py && python gen_rust.py
