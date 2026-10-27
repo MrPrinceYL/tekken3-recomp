@@ -1,0 +1,32 @@
+# Your own game disc goes here; never commit it
+/game/
+*.iso
+*.cue
+*.bin
+*.mcd
+
+# Everything below is generated from your disc (tools/build_sheets.py, tools/gen_*.py)
+/sheets/*
+!/sheets/hle.csv
+!/sheets/manual_*.csv
+/src/
+rust/Cargo.toml
+rust/Cargo.lock
+rust/crates/recomp/
+rust/crates/recomp_iop/
+rust/crates/t5-vu/
+rust/crates/t5-vu-*/
+rust/crates/t3-recomp/mem/
+rust/crates/*/src/table.rs
+rust/crates/*/src/iop_table.rs
+merge/extracted/
+merge/data/
+merge/png/
+
+# Build output and runtime files
+target/
+__pycache__/
+/memcard/
+rust/memcard/
+*.log
+*.wav
